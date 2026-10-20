@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: update
+# key: update
+# --
+function _update()
+  $0
+end

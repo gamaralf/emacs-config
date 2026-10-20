@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Disable Rubocop Cop
+# key: disru
+# --
+rubocop:disable $0

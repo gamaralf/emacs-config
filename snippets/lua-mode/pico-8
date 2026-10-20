@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: pico-8
+# key: pico
+# --
+function _init()
+  $0
+end
+
+function _update()
+
+end
+
+function _draw()
+
+end
