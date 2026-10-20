@@ -33,37 +33,8 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;; Executar esta função uma vez em novas instalações do Emacs para
-;; instalar todos os pacotes que eu uso vide:
-;; https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
-(defun instalar-pacotes ()
-  "Instalar pacotes que eu uso partir de uma lista."
-  (interactive)
-
-  ;;~ lista de pacotes desejados
-  ;;~ Pegar lista de pacotes instalados de package-activated-list
-  ;; TODO tirar algus daqui e usar use-package pra configurar atalhos e etc
-  ;; OBSOLETOS?: coffee-mode enh-ruby-mode helm-projectile helm helm-core
-  (setq lista-de-pacotes '(use-package highlight-thing
-                            fic-mode autothemer hl-todo impatient-showdown
-                            impatient-mode htmlize lua-mode magit git-commit 
-                            markdown-mode projectile robe inf-ruby
-                            rspec-mode rubocop ruby-electric ruby-extra-highlight
-                            ruby-interpolation simple-httpd tldr
-                            with-editor yafolding yasnippet-snippets
-                            yasnippet yaml-mode zenburn-theme web-mode))
-
-  ;;~ atualizar lista de pacotes
-  (unless package-archive-contents (package-refresh-contents))
-
-  ;;~ instalar os pacotes faltantes
-  (dolist (pacote lista-de-pacotes)
-    (unless (package-installed-p pacote)
-      (package-install pacote))))
-
 ;;~ '(initial-buffer-choice "~/org/Diario_de_bordo.org")
 
-;; (instalar-pacotes)
 (use-package emacs
   :custom
   ;; TAB cycle if there are only few candidates
@@ -151,71 +122,6 @@
 ;;=== Completar: company ou corfu? -------------------------------------------------
 ;; (use-package company :hook ((prog-mode text-mode) . company-mode)) ;; Code completion at point
 
-;;== vertico e cia (ou heml) -----------------------------------------------
-;; Better minibuffer completion
-(use-package vertico
-  :init
-  (vertico-mode)
-  
-  ;; (setq vertico-scroll-margin 0) ;; Different scroll margin
-  ;; (setq vertico-count 20) ;; Show more candidates
-  ;; (setq vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
-  
-  :bind
-  ("<f3>" . recentf))
-
-;; Persist minibuffer history over Emacs restarts. Vertico uses this
-;; to sort based on history.
-(use-package savehist
-  :init
-  (savehist-mode))
-
-;; para melhorar o vertico
-(use-package orderless
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
-;; Show lots of useful stuff in the minibuffer
-(use-package marginalia
-  :after vertico
-  :init
-  (marginalia-mode))
-
-;; Replace the default Emacs isearch with Consult, which offers a rich
-;; minibuffer results window and integration with Orderless.
-(use-package consult
-  :ensure t
-  ;; :bind (("C-s" . consult-line)
-  ;;        :map minibuffer-local-map
-  ;;        ("C-r" . consult-history))
-  :custom
-  (completion-in-region-function #'consult-completion-in-region))
-
-;; https://elpa.gnu.org/packages/corfu.html
-(use-package corfu
-  :init
-  ;; Recommended: Enable Corfu globally.  Recommended since many modes provide
-  ;; Capfs and Dabbrev can be used globally (M-/).  See also the customization
-  ;; variable `global-corfu-modes' to exclude certain modes.
-  (global-corfu-mode)
-
-  ;; Enable optional extension modes:
-  ;; (corfu-history-mode)
-  ;; (corfu-mouse-mode)
-  ;; (corfu-popupinfo-mode)
-
-  :custom
-  (corfu-auto t)
-  ;; You might want to configure these variables to suit your
-  ;; preferences.  It's recommended to have some amount of delay if
-  ;; you use Corfu with Eglot, otherwise editing performance could
-  ;; suffer.
-  (corfu-auto-delay 0.25)
-  (corfu-auto-prefix 2) )
 
 ;;=== funçõe úteis-----------------------------------------------------
 
@@ -238,6 +144,7 @@
         ((looking-back "\\s(" 1) (backward-char) (forward-sexp arg))))
 
 (load-file "./config/funcoes-ergoemacs.el")
+(load-file "./config/vertico_e_cia.el")
 
 ;;== Arquivos de config ----------------------------------------------
 ;; (load "~/.emacs.d/config/geral")
