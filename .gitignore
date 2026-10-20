@@ -1,1 +1,9 @@
 tmp
+eln-cache/
+elpa/
+history
+places.eld
+recentf.eld
+var/
+.cache/
+*.~undo-tree~

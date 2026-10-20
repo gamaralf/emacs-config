@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;=== shrink-whitespaces
 (defun gg-shrink-whitespaces ()
   "Remove white spaces around cursor to just one or none.
@@ -133,3 +134,21 @@ When there is a text selection, act on the region."
       (let ((beg (point)))
         (end-of-line)
         (comment-or-uncomment-region beg (point))))))
+
+(defun gg-copiar-linha ()
+  "Copy current line, or text selection.
+When `universal-argument' is called first, copy whole buffer (but respect `narrow-to-region')."
+  (interactive)
+  (let (p1 p2)
+    (if (null current-prefix-arg)
+        (progn (if (use-region-p)
+                   (progn (setq p1 (region-beginning))
+                          (setq p2 (region-end)))
+                 (progn (setq p1 (line-beginning-position))
+                        (setq p2 (line-end-position)))))
+      (progn (setq p1 (point-min))
+             (setq p2 (point-max))))
+    ;; (kill-ring-save p1 p2)
+    (copy-region-as-kill p1 p2)
+    (kill-append "\n" nil)
+    (message "Linha atual copiada") ))
